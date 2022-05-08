@@ -17,26 +17,21 @@ namespace Actividad2
             InitializeComponent();
         }
 
-        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listadoDeArticulosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BtnCatalogo_Click(object sender, EventArgs e)
         {
             ListadoArticulos listadoArticulos = new ListadoArticulos();
             listadoArticulos.ShowDialog();
         }
 
-        private void agregarArticuloToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BtnCargar_Click(object sender, EventArgs e)
         {
             Cargar_Articulo cargar_Articulo = new Cargar_Articulo();
             cargar_Articulo.ShowDialog();
+        }
+
+        private void BtnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
