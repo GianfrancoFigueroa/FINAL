@@ -89,6 +89,7 @@
             this.BtnAbout.TabIndex = 4;
             this.BtnAbout.Text = "ABOUT";
             this.BtnAbout.UseVisualStyleBackColor = false;
+            this.BtnAbout.Click += new System.EventHandler(this.BtnAbout_Click);
             // 
             // Form1
             // 

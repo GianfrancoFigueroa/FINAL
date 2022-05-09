@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Actividad2
 {
@@ -32,6 +33,14 @@ namespace Actividad2
         private void BtnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void BtnAbout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(" Version 2.8"+
+                "\n Developer: Gianfranco Figueroa" +
+                "\n Contacto: gianfranco.figueroa@alumnos.frgp.utn.edu.ar", "", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
         }
     }
 }

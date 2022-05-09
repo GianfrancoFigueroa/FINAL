@@ -35,14 +35,13 @@ namespace Actividad2
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)  
-        {
-            
+        {         
             ArticulosListado datos = new ArticulosListado();
             try
             {
                 if(Articulo == null)
                 {
-                    ClassArticulo Articulo = new ClassArticulo();
+                    Articulo = new ClassArticulo();
                 }
 
                 Articulo.Codigo = TxbCodigo.Text;

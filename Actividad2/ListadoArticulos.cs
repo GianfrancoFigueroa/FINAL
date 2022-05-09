@@ -33,6 +33,10 @@ namespace Actividad2
             CbMarca.DataSource = marcas.Listado();
             CbMarca.ValueMember = "Id";
             CbMarca.DisplayMember = "Marca";
+            CbOrdenar.Items.Add("Código A-Z");
+            CbOrdenar.Items.Add("Código Z-A");
+            CbOrdenar.Items.Add("Menor precio");
+            CbOrdenar.Items.Add("Mayor precio");
             BorrarCB();
 
         }
@@ -55,7 +59,7 @@ namespace Actividad2
             }
             catch (Exception)
             {
-                pictureBox1.Load("https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg");
+                pictureBox1.Load("https://www.agora-gallery.com/advice/wp-content/uploads/2015/10/image-placeholder.png");
                 
             }
             
@@ -149,12 +153,25 @@ namespace Actividad2
             ClassArticulo Aux = new ClassArticulo();
             List<ClassArticulo> Lista;
             Aux.Marcas = (Marcas)CbMarca.SelectedItem;
+            Aux.Categorias = (Categorias)CbCategoria.SelectedItem;
 
+            if (CbCategoria.SelectedIndex == -1)
+            {
+                Lista = ArticulosAux.FindAll(x => x.Marcas.ID == Aux.Marcas.ID);
+            }
+            else
+            {
+                Lista = ArticulosAux.FindAll(x => x.Categorias.ID == Aux.Categorias.ID && x.Marcas.ID == Aux.Marcas.ID);
+            }
 
-            Lista = ArticulosAux.FindAll(x => x.Marcas.ID == Aux.Marcas.ID);
+            ListaFiltrada(Lista);
 
+        }
+
+        private void ListaFiltrada(List<ClassArticulo> articulos)
+        {
             dataGridView1.DataSource = null;
-            dataGridView1.DataSource = Lista;
+            dataGridView1.DataSource = articulos;
             OcultarColumns();
         }
 
@@ -163,12 +180,18 @@ namespace Actividad2
             ClassArticulo Aux = new ClassArticulo();
             List<ClassArticulo> Lista;
             Aux.Categorias = (Categorias)CbCategoria.SelectedItem;
+            Aux.Marcas = (Marcas)CbMarca.SelectedItem;
 
+            if(CbMarca.SelectedIndex == -1)
+            {
+                Lista = ArticulosAux.FindAll(x => x.Categorias.ID == Aux.Categorias.ID);
+            }
+            else
+            {
+                Lista = ArticulosAux.FindAll(x => x.Categorias.ID == Aux.Categorias.ID && x.Marcas.ID == Aux.Marcas.ID);
+            }
 
-            Lista = ArticulosAux.FindAll(x => x.Categorias.ID == Aux.Categorias.ID);
-
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = Lista;
+            ListaFiltrada(Lista);
             OcultarColumns();
         }
 
@@ -176,12 +199,22 @@ namespace Actividad2
         {
             CbCategoria.SelectedIndex = -1;
             CbMarca.SelectedIndex = -1;
+            CbOrdenar.SelectedIndex = -1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             BorrarCB();
             DatosGrid();
+        }
+
+        private void CbOrdenar_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+
+                ArticulosListado Ordenar = new ArticulosListado();
+                string Criterio = CbOrdenar.Text;
+                ListaFiltrada(Ordenar.Ordenar(Criterio));
+            
         }
     }
 }

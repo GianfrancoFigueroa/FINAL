@@ -132,10 +132,66 @@ namespace Conexiones
 
         }
 
-        public void ordenar()
+        public List<ClassArticulo> Ordenar(string criterio)
         {
+            List<ClassArticulo> ListaOrdenada = new List<ClassArticulo>();
+            try
+            {
+                string consulta = "Select A.Id as 'Id P', A.Codigo, A.Nombre, A.Descripcion, M.id as 'Id Marca', M.Descripcion as 'Marca', C.id as 'Id Categoria', C.Descripcion as 'Categoria', A.ImagenUrl, A.Precio from ARTICULOS A, CATEGORIAS C, MARCAS M where M.Id = A.IdMarca and C.Id = A.IdCategoria order by ";
+                switch (criterio)
+                {
+                    case "Código A-Z": consulta += "A.Codigo asc";
+                        break;
 
+                    case "Código Z-A": consulta += "A.Codigo desc";
+                        break;
+
+                    case "Mayor precio": consulta += "A.Precio desc";
+                        break;
+
+                    case "Menor precio": consulta += "A.Precio asc";
+                        break;
+
+                    default:
+                        break;
+                }
+
+                accesos.SetConsulta(consulta);
+                accesos.exeLectura();
+
+                while (accesos.Reader.Read())
+                {
+                    ClassArticulo Aux = new ClassArticulo();
+                    Aux.ID = (int)accesos.Reader["Id P"];
+                    Aux.Nombre = (string)accesos.Reader["Nombre"];
+                    Aux.Codigo = (string)accesos.Reader["Codigo"];
+                    Aux.Descripción = (string)accesos.Reader["Descripcion"];
+                    Aux.Marcas = new Marcas();
+                    Aux.Marcas.ID = (int)accesos.Reader["Id Marca"];
+                    Aux.Marcas.Marca = (string)accesos.Reader["Marca"];
+                    Aux.Categorias = new Categorias();
+                    Aux.Categorias.ID = (int)accesos.Reader["Id Categoria"];
+                    Aux.Categorias.Categoria = (string)accesos.Reader["Categoria"];
+                    if (!(accesos.Reader["ImagenURL"] is DBNull))
+                    {
+                        Aux.ImagenURL = (string)accesos.Reader["ImagenURL"];
+                    }
+                    Aux.Precio = (decimal)accesos.Reader["Precio"];
+
+                    ListaOrdenada.Add(Aux);
+                }
+
+                return ListaOrdenada;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                accesos.CloseConecction();
+            }
         }
-        
     }
 }
